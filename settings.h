@@ -1,4 +1,8 @@
-/**The MIT License (MIT)
+/**
+Copyright (c) 2018 by Philipp Pfeiffer
+based upon the Weather Station code using the following license:
+
+The MIT License (MIT)
 Copyright (c) 2015 by Daniel Eichhorn
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,45 +25,20 @@ See more at http://blog.squix.ch
 #include <simpleDSTadjust.h>
 
 // Setup
-#define WIFI_SSID "Philipp Heidelberg"
-#define WIFI_PASS "35418178372348538115"
-#define WIFI_HOSTNAME "ESP8266_FHEM_Display"
+const char* WIFI_SSID = "ssid";
+const char* WIFI_PASS = "password";
+const char* WIFI_HOSTNAME = "ESP8266_FHEM_Display";
 
-#define FHEMServer "http://192.168.10.59:8089/fhem?XHR=1&cmd=";
+const String FHEM_SERVER = "http://192.168.1.1:8083/fhem"; //full url, must include port
+const String FHEM_USER = "Username"; //leave blank (const String FHEM_User = "";) if you use no Basic Auth
+const String FHEM_PASSWORD = "Password";
 
-const int Touchscreen_Delay_MSECS = 1000;
-const int UPDATE_INTERVAL_SECS = 30; // Update every 10 minutes
-//const int SLEEP_INTERVAL_SECS = 0;   // Going to Sleep after idle times, set 0 for dont sleep
-
-// OpenWeatherMap Settings
-// Sign up here to get an API key: https://docs.thingpulse.com/how-tos/openweathermap-key/
-//String OPEN_WEATHER_MAP_APP_ID = "5ae387916a8a8ffcb2e513788ae9a2b9";
-/*
-Go to https://openweathermap.org/find?q= and search for a location. Go through the
-result set and select the entry closest to the actual location you want to display 
-data for. It'll be a URL like https://openweathermap.org/city/2657896. The number
-at the end is what you assign to the constant below.
- */
-//String OPEN_WEATHER_MAP_LOCATION_ID = "2907911";
-//String DISPLAYED_CITY_NAME = "Heidelberg";
-/*
-Arabic -> ar, Bulgarian -> bg, Catalan -> ca, Czech -> cz, German -> de, Greek -> el,
-English -> en, Persian (Farsi) -> fa, Finnish -> fi, French -> fr, Galician -> gl,
-Croatian -> hr, Hungarian -> hu, Italian -> it, Japanese -> ja, Korean -> kr,
-Latvian -> la, Lithuanian -> lt, Macedonian -> mk, Dutch -> nl, Polish -> pl,
-Portuguese -> pt, Romanian -> ro, Russian -> ru, Swedish -> se, Slovak -> sk,
-Slovenian -> sl, Spanish -> es, Turkish -> tr, Ukrainian -> ua, Vietnamese -> vi,
-Chinese Simplified -> zh_cn, Chinese Traditional -> zh_tw.
-*/
-//String OPEN_WEATHER_MAP_LANGUAGE = "de";
-//const uint8_t MAX_FORECASTS = 10;
+const int Touchscreen_Delay_MSECS = 1000; //ignore inputs for this long after first input (ignores accidential second touch event)
+const int UPDATE_INTERVAL_SECS = 30; // Update every x sec
 
 // Adjust according to your language
 const String WDAY_NAMES[] = {"So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"};
 const String MONTH_NAMES[] = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"};
-//const String SUN_MOON_TEXT[] = {"Sun", "Rise", "Set", "Moon", "Age", "Illum"};
-//const String MOON_PHASES[] = {"New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous",
-                              //"Full Moon", "Waning Gibbous", "Third quarter", "Waning Crescent"};
 
 #define UTC_OFFSET +1
 struct dstRule StartRule = {"CEST", Last, Sun, Mar, 2, 3600}; // Central European Summer Time = UTC/GMT +2 hours
@@ -70,17 +49,9 @@ struct dstRule EndRule = {"CET", Last, Sun, Oct, 2, 0};       // Central Europea
 // struct dstRule StartRule = {"EDT", Second, Sun, Mar, 2, 3600}; // Eastern Daylight time = UTC/GMT -4 hours
 // struct dstRule EndRule = {"EST", First, Sun, Nov, 1, 0};       // Eastern Standard time = UTC/GMT -5 hour
 
-// values in metric or imperial system?
-//const boolean IS_METRIC = true;
-
-// Change for 12 Hour/ 24 hour style clock
-//bool IS_STYLE_12HR = false;
-
 // change for different ntp (time servers)
 #define NTP_SERVERS "0.ch.pool.ntp.org", "1.ch.pool.ntp.org", "2.ch.pool.ntp.org"
 // #define NTP_SERVERS "us.pool.ntp.org", "time.nist.gov", "pool.ntp.org"
-
-
 
 // Pins for the ILI9341
 #define TFT_DC D2

@@ -1,3 +1,8 @@
+//icons are complicated, you can only use 4 different colors as defined in palette[]. Black and White count against these 4, meaning 2 colors remain
+//Selecte/define four colors in palette[] and try to adapt your image.
+//I then used this tool to convert images: https://rawgit.com/lorol/esp8266-weather-station-color/master/resources/converter-tool/display.htm
+//the spotify controller demo app by thingpulse seems to somehow circumvent this restriction of 4 colors. Perhaps looking there can produce a better solution
+
 const char FHEMLogo[] PROGMEM = {
   0x01, // Version: 1
   0x02, // BitDepth: 2
