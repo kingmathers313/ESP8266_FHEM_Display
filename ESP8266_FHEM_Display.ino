@@ -102,8 +102,8 @@ String getTime(time_t *timestamp);
 FHEM fhemclient(FHEM_SERVER, FHEM_USER, FHEM_PASSWORD);
 
 void Draw(int16_t x, int16_t y, String text, const char *font, uint16_t color, TEXT_ALIGNMENT alignment);
-String PowerStatus;
-String WaschmaschineStatus;
+String Status1;
+String Status2;
 
 long lastDownloadUpdate = millis();
 long lastTouchscreenPress = -1000;
@@ -225,19 +225,19 @@ void loop()
 				if (p.y > 200)
 				{
 					done = true;
-					//fhemclient.LoadFromServer("set WaschmaschineDummy startin sofort");
+					fhemclient.LoadFromServer("set WaschmaschineDummy startin sofort"); //sending a command to FHEM
 					Serial.write("Start now");
 				}
 				else if (p.y > 100)
 				{
 					done = true;
-					//fhemclient.LoadFromServer("set WaschmaschineDummy startin 6");
+					fhemclient.LoadFromServer("set WaschmaschineDummy startin 6");
 					Serial.write("Start within 6h");
 				}
 				else
 				{
 					done = true;
-					//fhemclient.LoadFromServer("set WaschmaschineDummy startuntil 14");
+					fhemclient.LoadFromServer("set WaschmaschineDummy startuntil 14");
 					Serial.write("Start until 2pm");
 				}
 
@@ -278,8 +278,8 @@ void updateData()
 	drawProgress(50, "Loading Data...");
 
 	//this gets data from FHEM:
-	PowerStatus = fhemclient.LoadFromServer("{ESP8266GetResponse2()}");   //first 3 lines
-	WaschmaschineStatus = fhemclient.LoadFromServer("{ESP8266GetResponse()}");  //second 2 lines, with Start button
+	Status1 = fhemclient.LoadFromServer("{ESP8266GetResponse2()}");   //first 3 lines
+	Status2 = fhemclient.LoadFromServer("{ESP8266GetResponse()}");  //second 2 lines, with Start button
 
 	gfx.fillBuffer(MINI_BLACK);
 	gfx.setFont(ArialRoundedMTBold_14);
@@ -339,14 +339,14 @@ void drawTime()
 // draws current information
 void drawCurrentStatus()
 {
-	Draw(10, 65, PowerStatus, ArialRoundedMTBold_14, MINI_WHITE, TEXT_ALIGN_LEFT);
+	Draw(10, 65, Status1, ArialRoundedMTBold_14, MINI_WHITE, TEXT_ALIGN_LEFT);
 }
 
 void drawDeviceDetails()
 {
 	gfx.setColor(MINI_GREEN);
 	gfx.drawRect(10, 125, 220, 80);
-	Draw(15, 127, WaschmaschineStatus, ArialRoundedMTBold_14, MINI_BROWN, TEXT_ALIGN_LEFT);
+	Draw(15, 127, Status2, ArialRoundedMTBold_14, MINI_BROWN, TEXT_ALIGN_LEFT);
 	Draw(120, 160, "Start", ArialRoundedMTBold_36, MINI_GREEN, TEXT_ALIGN_CENTER);
 }
 
