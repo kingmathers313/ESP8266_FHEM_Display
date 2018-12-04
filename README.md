@@ -10,7 +10,7 @@ This project is built upon the [ThingPulse ESP8266 Weather Station Color](https:
 
 This is a modification of the Weather Station to interact with a FHEM Server instead. It can show information from a FHEM Server and it can react to touch events and send commands to the FHEM Server. It requires a FHEM sever that is not protected by SSL or a certificate to work.
 
-It uses the [![FHEM Arduino Library](https://github.com/kingmathers313/FHEM_Arduino)
+It uses the [FHEM Arduino Library](https://github.com/kingmathers313/FHEM_Arduino)
 
 ## License
 
